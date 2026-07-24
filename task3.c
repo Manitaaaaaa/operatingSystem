@@ -8,9 +8,9 @@ int main()
     char text[100];
     char username[20];
     char password[20];
-    char read;
-    char write;
-    char execute;
+    char ownerRead, ownerWrite, ownerExecute;
+    char groupRead, groupWrite, groupExecute;
+    char othersRead, othersWrite, othersExecute;
     char data[200];
     int i;
     char ch;
@@ -167,23 +167,50 @@ int main()
     // File Permission
     else if(choice == 5)
     {
-        printf("Enter file name: ");
-        scanf("%s", name);
+    printf("Enter file name: ");
+    scanf("%s", name);
 
-        printf("Read Permission (y/n): ");
-        scanf(" %c", &read);
+    printf("\nOwner Permissions\n");
+    printf("Read (y/n): ");
+    scanf(" %c", &ownerRead);
+    printf("Write (y/n): ");
+    scanf(" %c", &ownerWrite);
+    printf("Execute (y/n): ");
+    scanf(" %c", &ownerExecute);
 
-        printf("Write Permission (y/n): ");
-        scanf(" %c", &write);
+    printf("\nGroup Permissions\n");
+    printf("Read (y/n): ");
+    scanf(" %c", &groupRead);
+    printf("Write (y/n): ");
+    scanf(" %c", &groupWrite);
+    printf("Execute (y/n): ");
+    scanf(" %c", &groupExecute);
 
-        printf("Execute Permission (y/n): ");
-        scanf(" %c", &execute);
+    printf("\nOthers Permissions\n");
+    printf("Read (y/n): ");
+    scanf(" %c", &othersRead);
+    printf("Write (y/n): ");
+    scanf(" %c", &othersWrite);
+    printf("Execute (y/n): ");
+    scanf(" %c", &othersExecute);
 
-        printf("\nPermissions for %s\n", name);
-        printf("Read    : %c\n", read);
-        printf("Write   : %c\n", write);
-        printf("Execute : %c\n", execute);
-    }
+    printf("\nPermissions for %s\n", name);
+
+    printf("\nOwner\n");
+    printf("Read    : %c\n", ownerRead);
+    printf("Write   : %c\n", ownerWrite);
+    printf("Execute : %c\n", ownerExecute);
+
+    printf("\nGroup\n");
+    printf("Read    : %c\n", groupRead);
+    printf("Write   : %c\n", groupWrite);
+    printf("Execute : %c\n", groupExecute);
+
+    printf("\nOthers\n");
+    printf("Read    : %c\n", othersRead);
+    printf("Write   : %c\n", othersWrite);
+    printf("Execute : %c\n", othersExecute);
+}
 
     // Encrypt
     else if(choice == 6)
