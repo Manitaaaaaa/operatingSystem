@@ -34,17 +34,26 @@ int main()
     printf("Connected to server.\n");
 
     // Authentication
-    char username[20];
-    char password[20];
-    char buffer[100];
+char username[20];
+char password[20];
+char buffer[100];
 
-    printf("Username: ");
-    scanf("%19s", username);
-    printf("Password: ");
-    scanf("%19s", password);
+printf("Username: ");
+scanf("%19s", username);
 
-    send(clientSocket, username, strlen(username), 0);
-    send(clientSocket, password, strlen(password), 0);
+printf("Password: ");
+scanf("%19s", password);
+
+snprintf(buffer,
+         sizeof(buffer),
+         "%s\n%s\n",
+         username,
+         password);
+
+send(clientSocket,
+     buffer,
+     strlen(buffer),
+     0);
 
     int bytes = recv(clientSocket, buffer, sizeof(buffer) - 1, 0);
     if(bytes <= 0)

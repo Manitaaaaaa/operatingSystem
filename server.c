@@ -65,23 +65,33 @@ int main()
 
         if(pid == 0)
         {
-            // ---- Child process: handles this one client ----
+            //Child process: handles this one client
             close(serverSocket); // child doesn't need the listening socket
 
             // Authentication
-            char username[20];
-            char password[20];
-            int n;
+char buffer[100];
+char username[20];
+char password[20];
 
-            n = recv(clientSocket, username, sizeof(username) - 1, 0);
-            if(n <= 0) { close(clientSocket); exit(0); }
-            username[n] = '\0';
+int n = recv(clientSocket,
+             buffer,
+             sizeof(buffer) - 1,
+             0);
 
-            n = recv(clientSocket, password, sizeof(password) - 1, 0);
-            if(n <= 0) { close(clientSocket); exit(0); }
-            password[n] = '\0';
+if(n <= 0)
+{
+    close(clientSocket);
+    exit(0);
+}
 
-            if(strcmp(username, "admin") == 0 && strcmp(password, "1234") == 0)
+buffer[n] = '\0';
+
+sscanf(buffer,
+       "%19[^\n]\n%19[^\n]",
+       username,
+       password);
+
+            if(strcmp(username, "student") == 0 && strcmp(password, "os2026") == 0)
             {
                 send(clientSocket, "Authentication Successful",
                      strlen("Authentication Successful") + 1, 0);
@@ -122,7 +132,7 @@ int main()
         }
         else
         {
-            // ---- Parent process: goes back to accepting new clients ----
+            //Parent process: goes back to accepting new clients
             close(clientSocket); // parent doesn't need this client's socket
         }
     }

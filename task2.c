@@ -21,9 +21,9 @@ int main()
 
     printf("Enter Page Reference String:\n");
 
-    for(int i = 0; i < totalPages; i++)
+    for (int i = 0; i < totalPages; i++)
     {
-            scanf("%d", &pages[i]);
+        scanf("%d", &pages[i]);
     }
 
     // Memory frames
@@ -37,7 +37,7 @@ int main()
     int pageHits = 0;
 
     // Initialize frames as empty
-    for(int i = 0; i < totalFrames; i++)
+    for (int i = 0; i < totalFrames; i++)
     {
         frames[i] = -1;
     }
@@ -47,21 +47,21 @@ int main()
 
     printf("Page Reference String : ");
 
-    for(int i = 0; i < totalPages; i++)
+    for (int i = 0; i < totalPages; i++)
     {
         printf("%d ", pages[i]);
     }
 
     printf("\n\nFIFO Page Replacement\n\n");
 
-    for(int i = 0; i < totalPages; i++)
+    for (int i = 0; i < totalPages; i++)
     {
         int found = 0;
 
         // Check if page is already in memory
-        for(int j = 0; j < totalFrames; j++)
+        for (int j = 0; j < totalFrames; j++)
         {
-            if(frames[j] == pages[i])
+            if (frames[j] == pages[i])
             {
                 found = 1;
                 pageHits++;
@@ -72,16 +72,15 @@ int main()
         }
 
         // If page is not found
-        if(found == 0)
+        if (found == 0)
         {
-            if(nextFrame < totalFrames)
+            if (nextFrame < totalFrames)
             {
                 frames[nextFrame] = pages[i];
 
                 printf("Loaded Page %d into Frame %d\n",
                        pages[i],
                        nextFrame + 1);
-
                 nextFrame++;
             }
             else
@@ -91,35 +90,34 @@ int main()
                 printf("Replacing Page %d with Page %d\n",
                        frames[replace],
                        pages[i]);
-
                 frames[replace] = pages[i];
             }
-
             pageFaults++;
+
             // Display current memory frames
             printf("Frames : ");
 
-            for(int j = 0; j < totalFrames; j++)
+            for (int j = 0; j < totalFrames; j++)
             {
-               if(frames[j] == -1)
-                          printf("- ");
-               else
-                          printf("%d ", frames[j]);
+                if (frames[j] == -1)
+                    printf("- ");
+                else
+                    printf("%d ", frames[j]);
             }
 
-             printf("\n\n");
+            printf("\n\n");
         }
     }
 
-        printf("\nCurrent Memory Frames\n");
+    printf("\nCurrent Memory Frames\n");
 
-        for(int i = 0; i < totalFrames; i++)
+    for (int i = 0; i < totalFrames; i++)
     {
         printf("Frame %d : %d\n", i + 1, frames[i]);
     }
 
-             printf("FIF0 Page Hits : %d\n", pageHits);
-             printf("FIFO Page Faults : %d\n", pageFaults);
+    printf("FIFO Page Hits : %d\n", pageHits);
+    printf("FIFO Page Faults : %d\n", pageFaults);
 
     float hitRatio = (float)pageHits / totalPages;
     float missRatio = (float)pageFaults / totalPages;
@@ -138,99 +136,100 @@ int main()
     int lastUsed[totalFrames];
 
     // Initialize LRU frames
-    for(int i = 0; i < totalFrames; i++)
+    for (int i = 0; i < totalFrames; i++)
     {
-          lruFrames[i] = -1;
-          lastUsed[i] = -1;
-     }
-
-     // LRU counters
-     int lruHits = 0;
-     int lruFaults = 0;
-
-     printf("\nInitial LRU Frames:\n");
-
-     for(int i = 0; i < totalFrames; i++)
-     {
-           printf("Frame %d : %d\n", i + 1, lruFrames[i]);
-     }
-     printf("\n\nLoading Pages using LRU\n\n");
-
-     for(int i = 0; i < totalPages; i++)
-     {
-     int found = 0;
-
-     // Check if page already exists
-     for(int j = 0; j < totalFrames; j++)
-     {
-        if(lruFrames[j] == pages[i])
-        {
-            found = 1;
-            lruHits++;
-            lastUsed[j] = i;
-
-            printf("Page %d -> Hit\n", pages[i]);
-            break;
-        }
+        lruFrames[i] = -1;
+        lastUsed[i] = -1;
     }
 
-    // Page not found
-    if(found == 0)
-{
-    int index = -1;
+    // LRU counters
+    int lruHits = 0;
+    int lruFaults = 0;
 
-    // Find an empty frame
-    for(int j = 0; j < totalFrames; j++)
+    printf("\nInitial LRU Frames:\n");
+
+    for (int i = 0; i < totalFrames; i++)
     {
-        if(lruFrames[j] == -1)
-        {
-            index = j;
-            break;
-        }
+        printf("Frame %d : %d\n", i + 1, lruFrames[i]);
     }
+    printf("\n\nLoading Pages using LRU\n\n");
 
-    // If no empty frame, replace least recently used page
-    if(index == -1)
+    for (int i = 0; i < totalPages; i++)
     {
-        index = 0;
+        int found = 0;
 
-        for(int j = 1; j < totalFrames; j++)
+        // Check if page already exists
+        for (int j = 0; j < totalFrames; j++)
         {
-            if(lastUsed[j] < lastUsed[index])
+            if (lruFrames[j] == pages[i])
             {
-                index = j;
+                found = 1;
+                lruHits++;
+                lastUsed[j] = i;
+
+                printf("Page %d -> Hit\n", pages[i]);
+                break;
             }
         }
 
-        printf("Replacing Page %d with Page %d\n",
-               lruFrames[index],
-               pages[i]);
+        // Page not found
+        if (found == 0)
+        {
+            int index = -1;
+
+            // Find an empty frame
+            for (int j = 0; j < totalFrames; j++)
+            {
+                if (lruFrames[j] == -1)
+                {
+                    index = j;
+                    break;
+                }
+            }
+
+            // If no empty frame, replace least recently used page
+            if (index == -1)
+            {
+                index = 0;
+
+                for (int j = 1; j < totalFrames; j++)
+                {
+                    if (lastUsed[j] < lastUsed[index])
+                    {
+                        index = j;
+                    }
+                }
+
+                printf("Replacing Page %d with Page %d\n",
+                       lruFrames[index],
+                       pages[i]);
+            }
+            else
+            {
+                printf("Loaded Page %d into Frame %d\n",
+                       pages[i],
+                       index + 1);
+            }
+
+            lruFrames[index] = pages[i];
+            lastUsed[index] = i;
+            lruFaults++;
+        }
+
+        // Display frames
+        printf("Frames : ");
+
+        for (int j = 0; j < totalFrames; j++)
+        {
+            if (lruFrames[j] == -1)
+                printf("- ");
+            else
+                printf("%d ", lruFrames[j]);
+        }
+
+        printf("\n\n");
     }
-    else
-    {
-        printf("Loaded Page %d into Frame %d\n",
-               pages[i],
-               index + 1);
-    }
 
-    lruFrames[index] = pages[i];
-    lastUsed[index] = i;
-    lruFaults++;
-}
-
-    // Display frames
-    printf("Frames : ");
-
-    for(int j = 0; j < totalFrames; j++)
-    {
-        if(lruFrames[j] == -1)
-            printf("- ");
-        else
-            printf("%d ", lruFrames[j]);
-    }
-
-    printf("\n\n");
- }
     printf("LRU Page Hits : %d\n", lruHits);
     printf("LRU Page Faults : %d\n", lruFaults);
 
@@ -240,5 +239,24 @@ int main()
     printf("LRU Hit Ratio : %.2f\n", lruHitRatio);
     printf("LRU Miss Ratio : %.2f\n", lruMissRatio);
 
+    // Compare Results
+    printf("\n\n Comparison \n");
+    printf("FIFO -> Hits : %d , Faults : %d , Hit Ratio : %.2f\n",
+           pageHits, pageFaults, hitRatio);
+    printf("LRU  -> Hits : %d , Faults : %d , Hit Ratio : %.2f\n",
+           lruHits, lruFaults, lruHitRatio);
+
+    if (pageFaults < lruFaults)
+    {
+        printf("Result : FIFO performed better (fewer page faults)\n");
+    }
+    else if (lruFaults < pageFaults)
+    {
+        printf("Result : LRU performed better (fewer page faults)\n");
+    }
+    else
+    {
+        printf("Result : Both algorithms performed equally (%d faults each)\n", pageFaults);
+    }
     return 0;
 }
